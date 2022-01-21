@@ -1,0 +1,17 @@
+3. 
+- Giải thuật không thực hiện đúng nhiệm vụ (không thể kiểm tra tính liên thông của đồ thị vô hướng)
+- Giải thích: xét ma trận kề sau:
+    0 0 1
+    0 0 1
+    1 1 0
+
+    (1)   (2)
+      \   /
+       \ /
+       (3)
+
+- Ta có trình tự gọi của hàm là: Connected(A[1..3][1..3]) --> Connected(A[1..2][1..2]) --> Connected(A[1..1][1..1])
+    + Conntected(A[1..1][1..1]) = true
+    + trong vòng lặp for của Connected(A[1..2][1..2]): i chạy từ 1 đến 1, tuy nhiên A[2][1] lại có giá trị false
+    => Connected(A[1..2][1..2]) = false
+    => kiểm tra !Connected(A[1..2][1..2]) trong Connected(A[1..3][1..3]) là true => Connected(A[1..3][1..3]) trả về false

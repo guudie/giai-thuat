@@ -1,0 +1,33 @@
+1.////////////
+- Có:
+	f1(N) ∈ O(g1(n)) --> f1(n) ≤ c1*g1(n), ∀n ≥ n1 (c1 ∈ R; n1 ∈ N)
+	f2(N) ∈ O(g2(n)) --> f2(n) ≤ c2*g2(n), ∀n ≥ n2 (c2 ∈ R; n2 ∈ N)
+
+-->	f1(n) + f2(n) ≤ c1*g1(n) + c2*g2(n), ∀n ≥ max(n1, n2)
+
+- Đặt: c = max(c1, c2), ta có:
+	f1(n) + f2(n) ≤ c1*g1(n) + c2*g2(n) ≤ c*(g1(n) + g2(n))
+
+- Mà: a + b ≤ 2*max(a, b).
+-->	c*(g1(n) + g2(n)) ≤ 2c*max{g1(n), g2(n)}
+-->	f1(n) + f2(n) ≤ 2c*max{g1(n), g2(n)}, ∀n ≥ max(n1, n2)
+
+- Vậy f1(N)∈O(g1(n)) ∧ f2(N)∈O(g2(n)) ⇒ f1(n) + f2(n) ∈ O(max{g1(n), g2(n)})
+
+
+5.////////////
+- Thao tác cơ sở: curSum += a[k]
+- Xét vòng for 1: i: 1 -> n
+	   for 2: j: i -> n
+	Có thể thấy: cứ mỗi vòng lặp i, j thì sẽ xác định được 1 cặp (i, j) duy nhất (1≤i≤j≤n); 2 vòng for này sẽ đi qua hết tất cả các cặp (i, j) như vậy
+	   for 3: k: i -> j
+	Cứ mỗi cặp (i, j) thì k đi từ i đến j --> thao tác cơ sở sẽ được lặp lại j-i+1 lần đối với mỗi cặp (i, j)
+
+- Vì mỗi cặp (i, j) chỉ được xét 1 lần nên có thể nói tổng số lần thao tác cơ sở được thực hiện bằng tổng số các chiều dài của tất cả các cặp (i, j) (1≤i≤j≤n).
+
+- Xét cặp (i, j) với chiều dài m (1≤m≤n), số các cặp (i, j) trong khoảng [1, n] là n-(m-1) cặp.
+--> Tổng số lần thao tác cơ sở được thực hiện:
+	C(n) = 1*n + 2(n-1) + 3(n-2) + ... + m(n-(m-1)) + ... + n*1
+	     = Σ{ m(n-m+1) }
+	     = (n+1)Σ{ m } - Σ{ m^2 }
+

@@ -1,0 +1,58 @@
+1.
+a) 
+* phép so sánh là thao tác cơ sở
+C(n) =	C(⌊n/2⌋) + C(n-⌊n/2⌋) + 2	(n>2)
+	1				(n<=2)
+
+C(n) ≈	2C(n/2) + 2
+     =	2(2C(n/4) + 2) + 2
+     =	2(2(2C(n/8) + 2) + 2) + 2
+     =	...
+     =	2^(log2(n))C(0) + 2 + 4 + 8 + ... + ⌊2^log2(n)⌋
+     =	nC(0) + 2(1-2^log2(n))/(1-2)
+     =	n*0 + 2(n-1) = 2n-2 ∈ Θ(n)
+
+* if (l >= r – 1) cũng được xem là thao tác cơ sở
+C(n) =	C(⌊n/2⌋) + C(n-⌊n/2⌋) + 3	(n>2)
+     =	2				(n<=2)
+
+C(n) ≈	2C(n/2) + 3
+     =	2(2C(n/4) + 3) + 3
+     =	...
+     =	2^(log2(n))C(0) + 3 + 6 + 12 + ... + 3*⌊2^log2(n)⌋
+     =	nC(0) + 3(1-2^log2(n))/(1-2)
+     =	n*0 + 3(n-1) = 3n-3 ∈ Θ(n)
+
+b)
+MinMax(a[1..n]) {
+    min = max = a[1];
+    for (i = 2; i ≤ n; i++) {
+        if (a[i] > max)
+            max = a[i];
+        if (a[i] < min)
+            min = a[i];
+    }
+    return <min, max>
+}
+* các thao tác cơ sở là các phép so sánh
+* độ phức tạp: 2(n-2+1) = 2n-2 ∈ Θ(n)
+
+2.
+a)
+
+b) Phép chuyển dời là thao tác cơ sở:
+* có hệ thức truy hổi sau
+M(n) = M(⌊n/2⌋) + M(⌈n/2⌉) + n  (n>1)
+     = 0                      (n=1)
+
+* giả sử n = 2^k
+=> M(n) = 2M(n/2) + n
+        = 2(2M(n/4) + n/2) + n
+        = ...
+        = 2^k*M(1) + n + n + ... + n (k lần)
+        = kn = nlog2(n) ∈ Θ(nlogn)
+
+
+3.
+a) Phân bố dữ liệu: không giảm dần
+b) Trong hàm mergeSort, thêm vòng for từ low tới high kiểm tra xem mảng đã tăng dần chưa

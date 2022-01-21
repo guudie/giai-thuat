@@ -1,0 +1,16 @@
+1.
+* ta có: trong mỗi 2 nửa, giả sử khoảng cách nhỏ nhất giữa 2 điểm bất kì ở một bên trục l là d, ta có d <= δ
+nếu không thì δ chưa phải là khoảng cách nhỏ nhất trong nửa 2 bên
+=> phân bố sao cho số điểm tối đa có thể có trong hình chữ nhật 2δ x δ như sau:
+
+	    | ℓ
+	    |
+	o---o---o
+	|   |   | δ
+	o---o---o
+	    |
+	    |
+
+o: đại diện cho điểm
+
+2.

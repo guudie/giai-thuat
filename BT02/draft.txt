@@ -1,0 +1,120 @@
+1.
+Taohoanvi(pivot, a[1 .. n]) {
+    if (pivot == n)
+        inhoanvi(a);
+    else
+        for (i = pivot; i <= n; i++) {
+            a[pivot] ⇆ a[i];
+            Taohoanvi(pivot + 1, a);
+            a[pivot] ⇆ a[i];
+        }
+}
+Taohoanvi(1, a);
+
+*	Thao tác cơ sở: a[pivot] ⇆ a[i];
+*   Gọi T(n) là số phép tính cần thực hiện với mảng n phần tử, ta có:
+        T(0) = 0, T(1) = 2,...
+        mỗi vòng lặp thì thực hiện thao tác cơ sở 2 lần và thực hiện T(n-1) 1 lần, lặp n lần
+        T(n) = n + n*T(n-1) + n = n*T(n-1) + 2n
+
+*   Dùng hàm sinh, ta tìm được nghiệm của hệ thức đệ quy trên:
+    T(n) = 2*n!*Σ_{i=0}^{n-1}(1/i!)
+         = 2*n!(1/0! + 1/1! + 1/2! + ... + 1/(n-1)!)
+         = 2*⌊n!e - 1⌋ ~ Θ(n!)
+
+2.
+
+3.
+*   Mã giả:
+
+partition(cur, a[1..n], list[]){
+    // nếu con trỏ cur nằm ngoài khoảng cần tính hoặc tổng các phần tử trong list lớn hơn sum(a)/2
+    // trả về false
+    if(cur > n+1 || sum(list) > sum(a)/2)
+	    return false;
+
+    // nếu tổng trong list = tổng các số còn lại
+    // in ra, trả về true và kết thúc chương trình
+    if (sum(list) == sum(a)/2){
+        print(list);        // in các số trong list
+        print(a \ list);    // in các số còn lại
+	    return true;
+    }
+
+    // nếu con trỏ cur chưa chạy hết mảng: 2 trường hợp:
+    // chọn a[cur] hoặc không chọn a[cur] và tiếp tục xét các phần tử còn lại
+    else if (cur <= n) {
+        // chọn a[cur] và tiếp tục xét; nếu khi xét các phần tử còn lại mà tìm thấy 1 tập list phù hợp thì trả về true và kết thúc chương trình (không cần xét trường hợp không chọn a[cur])
+        list.push(a[cur]);
+        if(partition(cur + 1, a, list))
+	        return true;
+
+        // loại phần tử a[cur] và tiếp tục xét
+        list.pop();
+        return partition(cur + 1, a, list);
+    }
+
+    // nếu cur = n+1 (kết thúc việc xét) nhưng sum(list) != sum(a)/2
+    return false;
+}
+
+4.
+*   Có tổng của tất cả phần tử của ma trận:
+    S = 1 + 2 + 3 + ... + n^2 = n^2(n^2 + 1)/2
+    mà mỗi dòng (cột) có tổng là t
+    => S = n*t
+    => n*t = n^2(n^2 + 1)/2
+    <=> t = n(n^2 + 1)/2
+
+*   Mã giả:
+
+checkMagicSquare(a[1..n][1..n]){
+    t = 0;
+    for(i = 1; i <= n; i++)
+        t += a[1][i];
+    
+    for(i = 1; i <= n; i++){
+        row = 0;
+        col = 0;
+        for(j = 1; j <= n; j++){
+            row += a[i][j];
+            col += a[j][i];
+        }
+        if(t != row || t != col)
+            return false;
+    }
+
+    mainDiag = 0;
+    antiDiag = 0;
+    for(i = 1; i <= n; i++){
+        mainDiag += a[i][i];
+        antiDiag += a[i][n-i+1];
+    }
+    if(t != mainDiag || t != antiDiag)
+        return false;
+    
+    return true;
+}
+
+magicSquare(pivot, a[1..n][1..n]){
+    // nếu đã xét hết các phần tử trong một hoán vị thì kiểm tra nó có phải là một ma phương hay không
+    // nếu phải thì in
+    if(pivot == n^2)
+        if(checkMagicSquare(a))
+            print(a);
+    
+    // nếu chưa xét hết thì tiếp tục xét, lấy ý tưởng từ hàm Taohoanvi()
+    // chuyển đổi pivot và i từ tọa độ logic sang tọa độ 2d
+    else {
+        pRow = (pivot - 1) div n + 1;
+        pCol = (pivot - 1) mod n + 1;
+        for(i = pivot; i <= n^2; i++){
+            row = (i - 1) div n + 1;
+            col = (i - 1) mod n + 1;
+
+            a[pRow][pCol] ⇆ a[row][col];
+            magicSquare(pivot + 1, a);
+            a[pRow][pCol] ⇆ a[row][col];
+        }
+    }
+}
